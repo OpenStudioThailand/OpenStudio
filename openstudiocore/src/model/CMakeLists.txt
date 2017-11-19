@@ -855,6 +855,12 @@ set(${target_name}_src
   PumpVariableSpeed.hpp
   PumpVariableSpeed_Impl.hpp
   PumpVariableSpeed.cpp
+  Photovoltaic.hpp
+  Photovoltaic_Impl.hpp
+  Photovoltaic.cpp
+  PhotovoltaicThermal.hpp
+  PhotovoltaicThermal_Impl.hpp
+  PhotovoltaicThermal.cpp
   RadianceParameters.hpp
   RadianceParameters_Impl.hpp
   RadianceParameters.cpp
