@@ -108,11 +108,11 @@
 
 #include "../energyplus/ForwardTranslator.hpp"
 #include "../gbxml/ForwardTranslator.hpp"
-#include "../bec/ForwardTranslator.hpp"
 #include "../sdd/ForwardTranslator.hpp"
+#include "../bec/ForwardTranslator.hpp"
 
-
-
+#include <boost/filesystem/fstream.hpp>
+#include <boost/filesystem.hpp>
 
 #include <QDir>
 #include <QFileDialog>
@@ -1301,6 +1301,11 @@ namespace openstudio {
     exportFile(SDD);
   }
 
+void OSDocument::exportBEC()
+{
+	exportFile(BEC);
+}
+
   void OSDocument::exportFile(fileType type)
   {
 
@@ -1313,9 +1318,11 @@ namespace openstudio {
     else if (type == GBXML) {
       text.append("gbXML");
     }
-    else {
-      // should never get here
-      OS_ASSERT(false);
+    else if (type == BEC) {
+        text.append("BEC");
+    } else {
+        // should never get here
+        OS_ASSERT(false);
     }
 
     QString defaultDir = savePath().isEmpty() ? mainWindow()->lastPath() : QFileInfo(savePath()).path();
@@ -1343,6 +1350,12 @@ namespace openstudio {
         translatorErrors = trans.errors();
         translatorWarnings = trans.warnings();
       }
+	else if (type == BEC){
+		bec::ForwardTranslator trans;
+		trans.modelTobec(m, outDir, NULL, NULL, NULL, 0.0f);
+		translatorErrors = trans.errors();
+		translatorWarnings = trans.warnings();
+	}
 
       bool errorsOrWarnings = false;
       QString log;

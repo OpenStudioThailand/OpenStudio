@@ -238,6 +238,8 @@ class OPENSTUDIO_API OSDocument : public OSQObjectController {
 
   void exportSDD();
 
+  void exportBEC();
+
   // returns if a file was saved
   bool save();
 
@@ -302,7 +304,8 @@ class OPENSTUDIO_API OSDocument : public OSQObjectController {
 
   enum fileType{
     SDD,
-    GBXML
+    GBXML,
+    BEC
   };
 
   void exportFile(fileType type);
