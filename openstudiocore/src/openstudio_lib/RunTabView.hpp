@@ -51,6 +51,7 @@ class QTextEdit;
 class QFileSystemWatcher;
 class QTcpServer;
 class QTcpSocket;
+class QComboBox;
 
 namespace openstudio {
 
@@ -68,8 +69,8 @@ namespace openstudio {
 
     REGISTER_LOGGER("openstudio::RunView");
 
+    enum RUNMODE { RUN_NONE=0, RUN_ENERGY, RUN_BEC, RUN_ENERGY_BEC};
     void playButtonClicked(bool t_checked);
-
     void onRunProcessFinished(int exitCode, QProcess::ExitStatus status);
 
     //void onSimDirChanged(const QString &path);
@@ -77,13 +78,28 @@ namespace openstudio {
     //void onFileChanged(const QString &path);
 
     void onOpenSimDirClicked();
-
     void onNewConnection();
-
     void onRunDataReady();
+
+    //NOTE: BEC CODE
+    bool doBecInput(const QString &path, const model::Model &model, QString &outpath, QString &err);
+    double getPV(openstudio::model::Model* model);
+    void addPVAndBenchmarkToFile(const QString &fileName, int mode);
+    void updatePVInfile();
+    void callRealBEC(const QString &dir);
+    void logErrorText(const QString & text, const QString colorName=QString());
+    void logNormalText(const QString & text, const QString colorName=QString());
+    void logH1Text(const QString & text, const QString colorName=QString());
+    void logH2Text(const QString & text, const QString colorName=QString());
+    void playButtonClicked00(bool t_checked, RUNMODE runmode, bool clearLog);
+    void becFinished();
+    //END BEC CODE.
 
     // Given an osm file, return the companion directory
     path resourcePath(const path & osmPath) const;
+    
+    QHash<QString, QList<double>> sunlits;
+    float wwr_totoal;
 
     QToolButton * m_playButton;
     QProgressBar * m_progressBar;
@@ -91,13 +107,18 @@ namespace openstudio {
     QTextEdit * m_textInfo;
     QProcess * m_runProcess;
     QPushButton * m_openSimDirButton;
+    QComboBox* m_runMode;
     QTcpServer * m_runTcpServer;
     QTcpSocket * m_runSocket;
     //QFileSystemWatcher * m_simDirWatcher;
     //QFileSystemWatcher * m_eperrWatcher;
-
+    openstudio::path m_tempFolder;
+    QString becoutputPath;
+    double buildingArea;
+    RUNMODE runmode;
     enum State { stopped = 0, initialization = 1, os_measures = 2, translator = 3, ep_measures = 4, preprocess = 5, simulation = 6, reporting_measures = 7, postprocess = 8, complete = 9 };
     State m_state = State::stopped;
+    void doFinish();
   };
 
   class RunTabView : public MainTabView
@@ -110,7 +131,6 @@ namespace openstudio {
                   QWidget * parent = nullptr);
 
       virtual ~RunTabView() {}
-
     //signals:
     //  void resultsGenerated(const openstudio::path &t_sqlFile);
 
