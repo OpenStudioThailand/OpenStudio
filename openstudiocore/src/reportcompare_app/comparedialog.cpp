@@ -1,23 +1,18 @@
 #include "comparedialog.h"
 #include "ui_comparedialog.h"
 
-#include <QtWebKitWidgets/QWebFrame>
+#include <QWebEnginePage>
 #include <QFile>
 #include <QMessageBox>
 #include <QFileDialog>
 #include <QProgressDialog>
-#include "genbecreport.h"
-#include "idoc.h"
-#include "enegyplusdoc.h"
-#include "becdoc.h"
-#include "openstudiodoc.h"
+#include <QFile>
 
 CompareDialog::CompareDialog(QWidget *parent)
     : QDialog(parent)
     , ui(new Ui::CompareDialog)
 {
     ui->setupUi(this);
-    QString err;
     cmpType = CMPTYPE_UNKNOW;
 
     QObject::connect(ui->btAddCmpPath
@@ -53,7 +48,7 @@ CompareDialog::~CompareDialog()
     qDebug() << "CompareDialog::~CompareDialog()";
 }
 
-QString CompareDialog::loadFileToWebView(const QString& fn, QWebView* webView)
+QString CompareDialog::loadFileToWebView(const QString& fn, QWebEngineView *webView)
 {
     FINDTARGETRES res;
     qDebug() << "File : " << fn;
@@ -67,8 +62,19 @@ QString CompareDialog::loadFileToWebView(const QString& fn, QWebView* webView)
 
     qDebug() << "Target : " << target;
     if(!target.isEmpty()){
-        webView->load("file:///"+target);
-        fileCmps.append(target);
+
+        QString htmlstr;
+
+        QFile f(target);
+        if (f.open(QFile::ReadOnly | QFile::Text)){
+
+            QTextStream in(&f);
+            htmlstr = in.readAll();
+
+            f.close();
+        }
+
+        webView->setHtml(target);
     }
     msgRes(res, fn);
     return target;
@@ -293,6 +299,7 @@ CompareDialog::CMPTYPE CompareDialog::getDocTypeFromTitle(const QString &title){
 
 void CompareDialog::on_webView_loadFinished(bool arg1)
 {
+    //TODO: use this on load file finish
     qDebug() << __FUNCTION__ ;
     (void)arg1;
     CMPTYPE type = getDocTypeFromTitle(ui->webView->title());
@@ -304,47 +311,13 @@ void CompareDialog::on_webView_loadFinished(bool arg1)
         return;
     }
 
-    if(cmpType == CMPTYPE_ENYGYPLUS){
-        QString projectName1 = getReportName(file1);
-        doc = QSharedPointer<IDoc>(new EnegyPlusDoc(projectName1, ui->webView));
-    }
-    else if(cmpType == CMPTYPE_BEC){
-        QString projectName1 = getReportName(file1);
-        doc = QSharedPointer<IDoc>(new BECDoc(projectName1, ui->webView));
-    }
-    else if(cmpType == CMPTYPE_OPENSTUDIO){
-        QString projectName1 = getReportName(file1);
-        doc = QSharedPointer<IDoc>(new OpenStudioDoc(projectName1, ui->webView));
-    }
     LoadCompareFile(this->file2);
 }
 
 void CompareDialog::on_webView2_loadFinished(bool arg1)
 {
-    qDebug() << __FUNCTION__ ;
     msgBox.close();
-    (void)arg1;
-    CMPTYPE type = getDocTypeFromTitle(ui->webView2->title());
-    if(type != cmpType){
-        QString str = QString("File '%1' is unexpected type.").arg(this->file2);
-        QMessageBox::warning(this, "Warning", str);
-        ui->btAddCmpPath->setDisabled(true);
-        return;
-    }
-
-    fileCmps.append(this->file2);
-    if(cmpType == CMPTYPE_ENYGYPLUS){
-        QString projectName2 = getReportName(file2);
-        doc->doCmp(projectName2, ui->webView2);
-    }
-    else if(cmpType == CMPTYPE_BEC){
-        QString projectName2 = getReportName(file2);
-        doc->doCmp(projectName2, ui->webView2);
-    }
-    else if(cmpType == CMPTYPE_OPENSTUDIO){
-        QString projectName2 = getReportName(file2);
-        doc->doCmp(projectName2, ui->webView2);
-    }
+    //TODO: LOAD FILE 2 AND COMPARE
 }
 
 

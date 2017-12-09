@@ -3,7 +3,6 @@
 
 #include <QDialog>
 #include <memory>
-#include <QtWebKit/QWebElement>
 #include <QMessageBox>
 
 namespace Ui {
@@ -11,7 +10,7 @@ class CompareDialog;
 }
 
 class QWebElementCollection;
-class QWebView;
+class QWebEngineView;
 class IDoc;
 
 class CompareDialog : public QDialog
@@ -31,7 +30,7 @@ public:
     void doCmp(QString filePath);
     QString findTargetPath(const QString& filePath, CompareDialog::FINDTARGETRES &res);
     void msgRes(FINDTARGETRES res, QString filePath);
-    QString loadFileToWebView(const QString& fn, QWebView *webView);
+    QString loadFileToWebView(const QString& fn, QWebEngineView *webView);
     void LoadCompareFile(const QString &filePath);
     CMPTYPE getDocTypeFromTitle(const QString& title);
 
@@ -50,10 +49,9 @@ private:
     QString file1, file2, reportName2, type;
     QStringList fileCmps;
     CMPTYPE cmpType;
-    QSharedPointer<IDoc> doc;
     QString getReportName(const QString& filePath);
     QMessageBox msgBox;
-
+    QStringList msgList;
 };
 
 #endif // COMPAREDIALOG_H

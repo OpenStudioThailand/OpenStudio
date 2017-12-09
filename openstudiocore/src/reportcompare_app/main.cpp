@@ -1,9 +1,12 @@
-#include "menuwindow.h"
-#include "comparedialog.h"
 #include <QApplication>
 #include <QDebug>
 
-#define ONLY_COMPARE_DIALOG_START
+#include "menuwindow.h"
+#include "comparedialog.h"
+
+#ifdef _WIN32
+#include <Windows.h>
+#endif
 
 int main(int argc, char *argv[])
 {
@@ -22,5 +25,5 @@ int main(int argc, char *argv[])
     w.show();
     return a.exec();
 #endif
-
+	return false;
 }
