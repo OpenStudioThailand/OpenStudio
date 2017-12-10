@@ -36,6 +36,9 @@ public:
     void LoadCompareFile(const QString &filePath);
     CMPTYPE getDocTypeFromTitle(const QString& title);
 
+    void DoCmp();
+    void DoCmpJS2();
+    QString CmpFunc();
 private slots:
     void on_chkShowTree_clicked(bool checked);
     void on_btAddCmpPath_clicked();

@@ -8,6 +8,8 @@
 #include <QProgressDialog>
 #include <QFile>
 
+//#define TESTDEBUG 1
+
 CompareDialog::CompareDialog(QWidget *parent)
     : QDialog(parent)
     , ui(new Ui::CompareDialog)
@@ -29,9 +31,17 @@ CompareDialog::CompareDialog(QWidget *parent)
 
 bool CompareDialog::SetParam(int argc, char *argv[])
 {
+#ifndef TESTDEBUG
     if(argc>=4){
         return SetParam(argv[1], argv[2], argv[3]);
     }
+   #else
+	if (true){
+		return SetParam("C:/Users/gorn/Desktop/op_proj/EEC Academy 9"
+			, "C:/Users/gorn/Desktop/op_proj/EEC Academy 100"
+			, "e");
+	}
+#endif
     else {
 
         QMessageBox msgBox;
@@ -129,11 +139,20 @@ QString CompareDialog::getReportName(const QString &filePath)
     QString fp = filePath;
     fp.replace("\\", "/");
     QStringList fpls = fp.split("/");
-    qDebug() << "fpls.count = " << fpls.count();
-    if(fpls.count()>=4){
-        return fpls[fpls.count()-4];
+    QString ret = "";
+    QString strlp = "";
+    for(int i=0;i<fpls.count();i++){
+        if(fpls.at(i) == "run"){
+            ret = strlp;
+            break;
+        }
+        strlp = fpls.at(i);
     }
-    return "????";
+
+    if(ret.isEmpty())
+        return "????";
+    else
+        return ret;
 }
 
 void CompareDialog::on_chkShowTree_clicked(bool checked)
@@ -486,10 +505,8 @@ void CompareDialog::on_webView_loadFinished(bool arg1)
         LoadCompareFile(this->file2);
 }
 
-void CompareDialog::on_webView2_loadFinished(bool arg1)
+void CompareDialog::DoCmp()
 {
-    msgBox.close();
-    //TODO: LOAD FILE 2 AND COMPARE
     QRegExp rx("(.+)<body>(.*)<\\/body>(.+)");
     rx.indexIn(webStr1);
     QStringList list1 = rx.capturedTexts();
@@ -499,35 +516,16 @@ void CompareDialog::on_webView2_loadFinished(bool arg1)
     QString strFinal;
     QString realjs;
 
-    if (cmpType == CMPTYPE_OPENSTUDIO){
-        realjs = jsscript;
-        realjs = realjs.replace("$COMPARE"
-                                , QString("compare('%1', %2, %3)")
-                                .arg(reportName2)
-                                .arg(b2s(true))
-                                .arg(b2s(true)));
-    }else if(cmpType == CMPTYPE_ENYGYPLUS){
-        realjs = jsscript;
-        realjs = realjs.replace("$COMPARE"
-                                , QString("compare('%1', %2, %3)")
-                                .arg(reportName2)
-                                .arg(b2s(true))
-                                .arg(b2s(false)));
-    }else if(cmpType == CMPTYPE_BEC){
-        realjs = jsscript;
-        realjs = realjs.replace("$COMPARE"
-                                , QString("compare('%1', %2, %3)")
-                                .arg(reportName2)
-                                .arg(b2s(true))
-                                .arg(b2s(true)));
-    }
+    realjs = jsscript;
+    realjs = realjs.replace("$COMPARE"
+                            , CmpFunc());
 
     if (list1.count() == 4 && list2.count() == 4){
         strFinal = list1.at(1)
                 + realjs
                 + "<body>\n"
                 //+"<div id=\"report1\" style=\"display: none;\">\n"
-				+ "<div id=\"report1\">\n"
+                + "<div id=\"report1\">\n"
                 +list1.at(2) + "\n"
                 +"</div>\n"
                 +"<div id=\"report2\" style=\"display: none;\">\n"
@@ -548,8 +546,64 @@ void CompareDialog::on_webView2_loadFinished(bool arg1)
         }
     }
 
-	load2Compare = true;
-	ui->webView->load(tfilePath);
+    load2Compare = true;
+    msgBox.close();
+    ui->webView->load(tfilePath);
+}
+
+QString CompareDialog::CmpFunc()
+{
+    if (cmpType == CMPTYPE_OPENSTUDIO){
+        return QString("compare('%1', %2, %3)")
+                                .arg(reportName2)
+                                .arg(b2s(true))
+                                .arg(b2s(true));
+    }else if(cmpType == CMPTYPE_ENYGYPLUS){
+        return QString("compare('%1', %2, %3)")
+                                .arg(reportName2)
+                                .arg(b2s(true))
+                                .arg(b2s(false));
+    }else if(cmpType == CMPTYPE_BEC){
+        return QString("compare('%1', %2, %3)")
+                                .arg(reportName2)
+                                .arg(b2s(true))
+                                .arg(b2s(true));
+    }
+	return "compare('error', true, true)";
+}
+
+void CompareDialog::on_webView2_loadFinished(bool arg1)
+{
+    //TODO: LOAD FILE 2 AND COMPARE
+	if (load2Compare){
+		 ui->webView->page()->toPlainText([this](const QString &result){
+			qDebug() << "html:";
+			qDebug() << result;
+
+            QRegExp rx("(.+)<body>(.*)<\\/body>(.+)");
+            rx.indexIn(webStr2);
+            QStringList list2 = rx.capturedTexts();
+            QString strFinal;
+            if (list2.count() == 4){
+                strFinal = list2.at(2);
+                strFinal = strFinal.replace("\"", "\\\"");
+				strFinal = strFinal.replace("\r", "");
+				strFinal = strFinal.replace("\n", "");
+            }
+			QString js02 =
+                "document.getElementById(\"report2\").innerHTML = \""+strFinal+"\";"
+                + CmpFunc()
+                +";\n";
+            
+
+			ui->webView->page()->runJavaScript(js02);
+		 });
+	}
+	else
+	{
+		DoCmp();
+		load2Compare = true;
+	}
 }
 
 
