@@ -20,6 +20,4 @@ test_fails.txt
 
 *.sublime-project
 cmake-build-debug
-*.exe
-*.msi
 
