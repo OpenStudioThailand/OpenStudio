@@ -4,6 +4,7 @@
 #include <QDialog>
 #include <memory>
 #include <QMessageBox>
+#include <QTemporaryFile>
 
 namespace Ui {
 class CompareDialog;
@@ -25,12 +26,13 @@ public:
     bool SetParam(const QString &file1, const QString &file2, const QString &type);
     ~CompareDialog();
     QString scanFolderPathWithRegex(const QString& path, const QRegExp& reg, int recursive);
+	QString scanFolderPathWithEndWith(const QString& path, const QString& endwith, int recursive);
     void SetCmpType(CompareDialog::CMPTYPE type);
     bool isDuplicatePath(QString filePath);
     void doCmp(QString filePath);
     QString findTargetPath(const QString& filePath, CompareDialog::FINDTARGETRES &res);
     void msgRes(FINDTARGETRES res, QString filePath);
-    QString loadFileToWebView(const QString& fn, QWebEngineView *webView);
+	QString loadFileToWebView(const QString& fn, QWebEngineView *webView, QString& htmlstr);
     void LoadCompareFile(const QString &filePath);
     CMPTYPE getDocTypeFromTitle(const QString& title);
 
@@ -52,6 +54,10 @@ private:
     QString getReportName(const QString& filePath);
     QMessageBox msgBox;
     QStringList msgList;
+    QString webStr1;
+    QString webStr2;
+    bool load2Compare;
+    QString tfilePath;
 };
 
 #endif // COMPAREDIALOG_H

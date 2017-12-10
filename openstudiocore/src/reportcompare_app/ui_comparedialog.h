@@ -112,7 +112,6 @@ public:
         horizontalLayout_3->setContentsMargins(0, 0, 0, 0);
         webView = new QWebEngineView(wLeft);
         webView->setObjectName(QStringLiteral("webView"));
-        webView->setUrl(QUrl(QStringLiteral("about:blank")));
 
         horizontalLayout_3->addWidget(webView);
 
@@ -127,7 +126,6 @@ public:
         horizontalLayout_4->setContentsMargins(0, 0, 0, 0);
         webViewDebug = new QWebEngineView(wCenter);
         webViewDebug->setObjectName(QStringLiteral("webViewDebug"));
-        webViewDebug->setUrl(QUrl(QStringLiteral("about:blank")));
 
         horizontalLayout_4->addWidget(webViewDebug);
 
@@ -142,7 +140,6 @@ public:
         horizontalLayout_5->setContentsMargins(0, 0, 0, 0);
         webView2 = new QWebEngineView(wRight);
         webView2->setObjectName(QStringLiteral("webView2"));
-        webView2->setUrl(QUrl(QStringLiteral("about:blank")));
 
         horizontalLayout_5->addWidget(webView2);
 

@@ -4,9 +4,7 @@
 #include "menuwindow.h"
 #include "comparedialog.h"
 
-#ifdef _WIN32
-#include <Windows.h>
-#endif
+#define ONLY_COMPARE_DIALOG_START
 
 int main(int argc, char *argv[])
 {
