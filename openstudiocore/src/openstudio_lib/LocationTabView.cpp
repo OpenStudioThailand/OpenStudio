@@ -561,7 +561,12 @@ void LocationView::onWeatherFileBtnClicked()
   
   QString lastPath = QString::fromStdString(resourcesPath().string()+"/weather");
   //QString lastPath = m_lastEpwPathOpened;
-
+  LOG_FREE(Error, "OpenStudioApp", "Testing write log");
+  QMessageBox box(QMessageBox::Information,
+    "Openstudio Debugger",
+    "Initialize path: pass",
+    QMessageBox::Ok);
+  box.exec();
   if (lastPath.isEmpty() && m_lastDdyPathOpened.isEmpty()){
     //openstudio::runmanager::ConfigOptions co(true);
     //lastPath = toQString(co.getDefaultEPWLocation().native());
@@ -569,10 +574,11 @@ void LocationView::onWeatherFileBtnClicked()
     QString path = m_lastDdyPathOpened;
     lastPath = path.replace(".ddy", ".epw");
   }
-
+  box.setText("Setting last path: pass");
+  box.exec();
   QString fileName = QFileDialog::getOpenFileName(this,"Open EPW File",lastPath,fileTypes);
   if(!fileName.isEmpty()){
-    
+
     openstudio::path epwPath = toPath(fileName);
     openstudio::path newPath = toPath(m_modelTempDir) / toPath("resources/files") / epwPath.filename();
     openstudio::path previousEPWPath;
@@ -580,11 +586,13 @@ void LocationView::onWeatherFileBtnClicked()
     StringStreamLogSink ss;
     ss.setChannelRegex(boost::regex(".*EpwFile.*"));
     ss.setLogLevel(Error);
-
+    box.setText("Setting streamLogSink: pass");
+    box.exec();
     try{
       
       boost::optional<openstudio::model::WeatherFile> weatherFile = m_model.getOptionalUniqueModelObject<model::WeatherFile>();
-      
+      box.setText("Loading weather: pass");
+      box.exec();
       if (weatherFile){
         boost::optional<openstudio::path> temp = weatherFile->path();
         if (temp){
@@ -599,7 +607,8 @@ void LocationView::onWeatherFileBtnClicked()
       // duplicate code in OSDocument::fixWeatherFilePath
 
       openstudio::filesystem::copy_file(epwPath, newPath, openstudio::filesystem::copy_option::overwrite_if_exists);
-      
+      box.setText("copying file : pass");
+      box.exec();
       // this can throw
       EpwFile epwFile(newPath);
 
@@ -675,6 +684,8 @@ void LocationView::onWeatherFileBtnClicked()
       }
 
       update();
+      box.setText("Updating : pass");
+      box.exec();
     }
   }
 }
