@@ -98,7 +98,7 @@ def make_material(material_name, data, model)
   is_thai_library = false
   material = nil
   material_type = data["material_type"]
-  if ( !data["is_thai_library"].nil? and data["is_thai_library"] == true )
+  if ( !data["is_Thai_library"].nil? and data["is_Thai_library"] == true )
 	is_thai_library = true
   end
   if material_type == "StandardOpaqueMaterial"
@@ -112,7 +112,7 @@ def make_material(material_name, data, model)
 		material.setDensity(OpenStudio::convert(data["density"].to_f, "lb/ft^3", "kg/m^3").get)
 		material.setSpecificHeat(OpenStudio::convert(data["specific_heat"].to_f, "Btu/lb*R", "J/kg*K").get)
 	else
-	    material.setThickness(OpenStudio::convert(data["thickness"].to_f, "in", "m").get)
+	  material.setThickness(OpenStudio::convert(data["thickness"].to_f, "m", "m").get)
 		material.setConductivity(OpenStudio::convert(data["conductivity"].to_f, "W/m*K", "W/m*K").get)
 		material.setDensity(OpenStudio::convert(data["density"].to_f, "kg/m^3", "kg/m^3").get)
 		material.setSpecificHeat(OpenStudio::convert(data["specific_heat"].to_f, "J/kg*K", "J/kg*K").get)
