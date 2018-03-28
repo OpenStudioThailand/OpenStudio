@@ -516,10 +516,14 @@ public:
 
                     row2.append(QString("<td>%1</td>\n").arg(stringToMoney(element.text())));
                 }
-                if (isOnBuildingOTTVAC) {
+                
+				/*
+				if (isOnBuildingOTTVAC) {
 					out.append("<td>WWR</td>\n");
                     row2.append(QString("<td>%1</td>\n").arg(QString::number(WWR, 'f', 2)));
 				}
+				*/
+
                 row2.append("</tr>\n");
                 out.append("</tr>\n");
                 out.append(row2);
