@@ -1581,6 +1581,7 @@ void RunView::onRunDataReady()
     } else if (QString::compare(trimmedLine, "Returned from state postprocess", Qt::CaseInsensitive) == 0) {
       // no-op
     } else if (QString::compare(trimmedLine, "Failure", Qt::CaseInsensitive) == 0) {
+	  appendErrorText(line);
       appendErrorText("Failed.");
     } else if (QString::compare(trimmedLine, "Complete", Qt::CaseInsensitive) == 0) {
       appendH1Text("Completed.");
