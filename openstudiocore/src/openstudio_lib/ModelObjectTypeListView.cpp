@@ -38,6 +38,7 @@
 #include "../utilities/core/Assert.hpp"
 
 #include <iostream>
+#include <QCoreApplication>
 
 namespace openstudio {
 
@@ -62,6 +63,7 @@ ModelObjectTypeListView::ModelObjectTypeListView(const std::vector<std::pair<Idd
       ++modelObjectTypeAndName)
   {
     addModelObjectType(modelObjectTypeAndName->first, modelObjectTypeAndName->second);
+    QCoreApplication::processEvents();
   }
 }
 

@@ -267,6 +267,7 @@ LocationView::LocationView(bool isIP,
   std::vector<std::string> ashraeClimateZoneValues = model::ClimateZones::validClimateZoneValues(model::ClimateZones::ashraeInstitutionName(), model::ClimateZones::ashraeDefaultYear());
   for (const std::string& climateZone : ashraeClimateZoneValues){
     m_ashraeClimateZone->addItem(toQString(climateZone));
+    QCoreApplication::processEvents();
   }
 
   model::ClimateZone ashraeClimateZone = climateZones.getClimateZone(model::ClimateZones::ashraeInstitutionName(), model::ClimateZones::ashraeDefaultYear());
@@ -295,6 +296,7 @@ LocationView::LocationView(bool isIP,
   std::vector<std::string> cecClimateZoneValues = model::ClimateZones::validClimateZoneValues(model::ClimateZones::cecInstitutionName(), model::ClimateZones::cecDefaultYear());
   for (const std::string& climateZone : cecClimateZoneValues){
     m_cecClimateZone->addItem(toQString(climateZone));
+    QCoreApplication::processEvents();
   }
 
   model::ClimateZone cecClimateZone = climateZones.getClimateZone(model::ClimateZones::cecInstitutionName(), model::ClimateZones::cecDefaultYear());
@@ -706,6 +708,7 @@ void LocationView::onDesignDayBtnClicked()
            (iddObjectType == IddObjectType::SizingPeriod_WeatherFileConditionType)){
            
           ddyWorkspace.addObject(idfObject);
+          QCoreApplication::processEvents();
         }
       }
 
@@ -757,7 +760,7 @@ void LocationView::onDesignDayBtnClicked()
               unknownDay = true;
             }
           }
-          
+          QCoreApplication::processEvents();
         }
 
         // Pick only the most stringent design points

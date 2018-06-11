@@ -92,6 +92,7 @@ void ModelSubTabController::onRemoveItem(OSItem* item)
     for (auto &obj : modelObjectInspectorView->selectedObjects())
     {
       onRemoveObject(obj);
+      QCoreApplication::processEvents();
     }
   } else {
     ModelObjectItem* modelObjectItem = qobject_cast<ModelObjectItem*>(item);
@@ -131,6 +132,7 @@ void ModelSubTabController::onAddItem()
       for (auto &obj : modelObjectInspectorView->selectedObjects())
       {
         onAddObject(obj);
+        QCoreApplication::processEvents();
       }
     }
   }
@@ -151,6 +153,7 @@ void ModelSubTabController::onCopyItem()
     {
       if (!obj.handle().isNull()){
        onCopyObject(obj);
+       QCoreApplication::processEvents();
      }
     }
   }

@@ -124,6 +124,7 @@
 #include <QTemporaryFile>
 #include <QTimer>
 #include <QWidget>
+#include <QDebug>
 
 #ifdef _WINDOWS
 #include <windows.h>
@@ -263,7 +264,19 @@ namespace openstudio {
 
   int OSDocument::subTabIndex()
   {
-    return m_subTabId;
+      return m_subTabId;
+  }
+
+  void OSDocument::resetTime()
+  {
+      lastTime = QDateTime::currentMSecsSinceEpoch();
+  }
+
+  void OSDocument::echoTime(const char* message)
+  {
+      qint64 time1 = QDateTime::currentMSecsSinceEpoch();
+      qDebug() << message << "time:[" << (time1 - lastTime) << "]";
+      lastTime = time1;
   }
 
   void OSDocument::initializeModel()
@@ -308,7 +321,9 @@ namespace openstudio {
     openstudio::OSAppBase * app = OSAppBase::instance();
     app->waitDialog()->setVisible(true);
 
-    for (int i = 5; Application::instance().processEvents() && i != 0; --i) {}
+    for (int i = 5; Application::instance().processEvents() && i != 0; --i) {
+        QCoreApplication::processEvents();
+    }
 
     m_model = model;
 
@@ -510,7 +525,6 @@ namespace openstudio {
     {
     case SITE:
       // Location
-
       m_mainTabController = std::shared_ptr<MainTabController>(new LocationTabController(isIP, m_model, m_modelTempDir));
       m_mainWindow->setView(m_mainTabController->mainContentWidget(), SITE);
 
@@ -1179,25 +1193,35 @@ namespace openstudio {
 
   void OSDocument::onVerticalTabSelected(int verticalId)
   {
+      resetTime();
     m_mainTabId = verticalId;
 
+    //echoTime("BEFORE 'hideMyModelTab' config sub tab");
     if (m_mainTabId != RUBY_SCRIPTS && m_mainRightColumnController->isMyModelTabHidden()){
       m_mainRightColumnController->hideMyModelTab(false);
     }
+    //echoTime("AFTER 'hideMyModelTab' config sub tab");
 
+    //echoTime("BEFORE 'new LocationTabController' ");
     createTab(m_mainTabId);
+	echoTime("AFTER 'new LocationTabController' ");
 
     m_subTabId = m_subTabIds.at(m_mainTabId);
-
+    //echoTime("BEFORE 'selectSubTabByIndex(m_subTabId);' config sub tab");
     m_mainWindow->view()->selectSubTabByIndex(m_subTabId);
+    //echoTime("AFTER 'selectSubTabByIndex(m_subTabId);' config sub tab");
 
     switch (m_mainTabId)
     {
     case SITE:
+      //echoTime("Before 'SITE' config sub tab");
       m_mainRightColumnController->configureForSiteSubTab(m_subTabId);
+      //echoTime("After 'SITE' config sub tab");
       break;
     case SCHEDULES:
+      //echoTime("Before 'SCHEDULES' config sub tab");
       m_mainRightColumnController->configureForSchedulesSubTab(m_subTabId);
+      //echoTime("After 'SCHEDULES' config sub tab");
       break;
     case CONSTRUCTIONS:
       m_mainRightColumnController->configureForConstructionsSubTab(m_subTabId);
@@ -1252,12 +1276,7 @@ namespace openstudio {
     default:
       break;
     }
-
-    //m_mainWindow->selectHorizontalTab(LIBRARY);
-
-    //boost::optional<model::ModelObject> mo;
-
-    //m_inspectorController->layoutModelObject(mo);
+    echoTime("Check on OSDocument::onVerticalTabSelected");
   }
 
   void OSDocument::closeSidebar()
@@ -1656,6 +1675,7 @@ void OSDocument::exportBEC()
             catch (...){
             }
           }
+          QCoreApplication::processEvents();
         }
       }
     }

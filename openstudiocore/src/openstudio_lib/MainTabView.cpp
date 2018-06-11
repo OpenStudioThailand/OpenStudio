@@ -38,6 +38,7 @@
 #include <QResizeEvent>
 #include <QStackedWidget>
 #include <QStyleOption>
+#include <QCoreApplication>
 
 #include "../utilities/core/Assert.hpp"
 
@@ -203,6 +204,7 @@ void MainTabView::setCurrentIndex(int index)
     button->stackUnder(m_mainWidget);
 
     xPos += TAB_SEPARATION + button->width();
+    QCoreApplication::processEvents();
   }
 
   QPushButton * button = m_tabButtons[index];

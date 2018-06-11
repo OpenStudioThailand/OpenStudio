@@ -84,6 +84,7 @@
 
 #include "../utilities/idd/IddEnums.hpp"
 #include <utilities/idd/IddEnums.hxx>
+#include <QCoreApplication>
 
 namespace openstudio {
 
@@ -167,6 +168,7 @@ void SpaceTypesController::onPurgeObjects(const openstudio::IddObjectType& iddOb
     if (spaceType.spaces().empty()){
       spaceType.remove();
     }
+    QCoreApplication::processEvents();
   }
 }
 

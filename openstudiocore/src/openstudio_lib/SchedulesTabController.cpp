@@ -62,6 +62,7 @@
 #include <QDialog>
 #include <QFileDialog>
 #include <QString>
+#include <QDebug>
 
 namespace openstudio {
 
@@ -128,6 +129,7 @@ void SchedulesTabController::purgeUnusedScheduleRulesets()
     {
       it->remove();
     }
+    QCoreApplication::processEvents();
   }
 }
 
@@ -230,6 +232,7 @@ void SchedulesTabController::onDayScheduleSceneChanged( DayScheduleScene * scene
     else {
       scheduleDay.addValue(time,value);
     }
+    QCoreApplication::processEvents();
   }
 }
 

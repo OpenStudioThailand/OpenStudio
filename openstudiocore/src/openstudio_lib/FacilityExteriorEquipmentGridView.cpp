@@ -52,6 +52,7 @@
 #include <QComboBox>
 #include <QLabel>
 #include <QScrollArea>
+#include <QCoreApplication>
 
 // These defines provide a common area for field display names
 // used on column headers, and other grid widgets
@@ -237,6 +238,7 @@ namespace openstudio {
         // unhandled
         OS_ASSERT(false);
       }
+      QCoreApplication::processEvents();
     }
   }
 

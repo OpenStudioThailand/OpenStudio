@@ -100,6 +100,7 @@ YearSettingsWidget::YearSettingsWidget(const model::Model & model, QWidget * par
        i++ )
   {
     m_calendarYearEdit->addItem(QString::number(i));
+    QCoreApplication::processEvents();
   }
   m_calendarYearEdit->setCurrentIndex(100);
   connect(m_calendarYearEdit, static_cast<void (OSComboBox2::*)(int)>(&OSComboBox2::currentIndexChanged),
@@ -115,6 +116,7 @@ YearSettingsWidget::YearSettingsWidget(const model::Model & model, QWidget * par
   for( const auto dayOfWeekValue : dayOfWeekValues )
   {
     m_firstDayOfYearEdit->addItem(QString::fromStdString(dayOfWeekValue));
+    QCoreApplication::processEvents();
   }
   connect(m_firstDayOfYearEdit, static_cast<void (OSComboBox2::*)(const QString &)>(&OSComboBox2::currentIndexChanged),
     this, &YearSettingsWidget::firstDayofYearSelected);
@@ -221,6 +223,7 @@ YearSettingsWidget::YearSettingsWidget(const model::Model & model, QWidget * par
   {
     m_startWeekBox->addItem(QString::fromStdString(*it));
     m_endWeekBox->addItem(QString::fromStdString(*it));
+    QCoreApplication::processEvents();
   }
 
   for( auto it = days.begin();
@@ -229,6 +232,7 @@ YearSettingsWidget::YearSettingsWidget(const model::Model & model, QWidget * par
   {
     m_startDayBox->addItem(QString::fromStdString(*it));
     m_endDayBox->addItem(QString::fromStdString(*it));
+    QCoreApplication::processEvents();
   }
 
   for( auto it = months.begin();
@@ -237,6 +241,7 @@ YearSettingsWidget::YearSettingsWidget(const model::Model & model, QWidget * par
   {
     m_startMonthBox->addItem(QString::fromStdString(*it));
     m_endMonthBox->addItem(QString::fromStdString(*it));
+    QCoreApplication::processEvents();
   }
 
   // Stretch

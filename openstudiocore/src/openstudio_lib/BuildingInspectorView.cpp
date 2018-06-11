@@ -62,6 +62,7 @@
 #include <QPushButton>
 #include <QScrollArea>
 #include <QStackedWidget>
+#include <QCoreApplication>
 
 namespace openstudio {
 
@@ -683,6 +684,7 @@ void BuildingInspectorView::populateStandardsBuildingTypes()
     std::vector<std::string> suggestedStandardsBuildingTypes = m_building->suggestedStandardsBuildingTypes();
     for (const std::string& standardsBuildingType : suggestedStandardsBuildingTypes) {
       m_standardsBuildingTypeComboBox->addItem(toQString(standardsBuildingType));
+      QCoreApplication::processEvents();
     }
     boost::optional<std::string> standardsBuildingType = m_building->standardsBuildingType();
     if (standardsBuildingType){

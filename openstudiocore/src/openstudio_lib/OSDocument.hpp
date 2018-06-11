@@ -152,6 +152,9 @@ class OPENSTUDIO_API OSDocument : public OSQObjectController {
   // Returns -1 if there are no sub tabs.
   int subTabIndex();
 
+  void resetTime();
+  void echoTime(const char *message);
+
   enum VerticalTabID
   {
     SITE,
@@ -368,6 +371,7 @@ class OPENSTUDIO_API OSDocument : public OSQObjectController {
   int m_subTabId = 0;
   bool m_isPlugin;
 
+  qint64 lastTime;
   int m_startTabIndex;
   int m_startSubTabIndex;
 

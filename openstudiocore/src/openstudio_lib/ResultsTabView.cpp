@@ -413,6 +413,7 @@ void ResultsView::populateComboBox(std::vector<openstudio::path> reports)
   m_comboBox->clear();
   for (const openstudio::path& report : reports) {
 
+    QCoreApplication::processEvents();
     fullPathString = toQString(report.string());
     QFile file(fullPathString);
     fullPathString.prepend("file:///");
