@@ -120,6 +120,10 @@
 
 #include "../utilities/sql/SqlFile.hpp"
 
+#include <QCoreApplication>
+
+//NOTE:MAY BE USE QCoreApplication::processEvents(); later in for loop when slow
+
 namespace openstudio {
 namespace model {
 
@@ -1129,6 +1133,7 @@ namespace detail {
           anySumOutdoorAirMethod = true;
         }
       }
+      QCoreApplication::processEvents();
     }
 
     // find common variables for the new space
@@ -1205,6 +1210,7 @@ namespace detail {
             }
           }
         }
+        QCoreApplication::processEvents();
       }
 
       // space floor area is counted if any space is part of floor area
@@ -1265,7 +1271,7 @@ namespace detail {
         designSpecificationOutdoorAir.reset();
         allDesignSpecificationOutdoorAirDefaulted = false;
       }
-
+      QCoreApplication::processEvents();
     }
 
     // if all spaces share a common space type, ensure that there are no absolute loads
@@ -1278,6 +1284,7 @@ namespace detail {
             break;
           }
         }
+        QCoreApplication::processEvents();
       }
     }
 
@@ -1347,6 +1354,7 @@ namespace detail {
           child.cast<SpaceLoad>().hardSize();
           child.cast<SpaceLoad>().hardApplySchedules();
         }
+        QCoreApplication::processEvents();
       }
 
       // now move costs over to the new space
@@ -1369,6 +1377,7 @@ namespace detail {
         if (!cost.isRepeatPeriodMonthsDefaulted()){
           newCost.setRepeatPeriodMonths(cost.repeatPeriodMonths());
         }
+        QCoreApplication::processEvents();
       }
 
       // now move everything over to the new space
@@ -1434,6 +1443,7 @@ namespace detail {
           }
         }
       }
+      QCoreApplication::processEvents();
     }
 
     for (Surface mergedSurface : mergedSurfaces){
@@ -1522,7 +1532,7 @@ namespace detail {
     {
       comp.remove();
     }
-
+    QCoreApplication::processEvents();
     //detach it from the zone air node
     Node airNode = this->zoneAirNode();
     airNode.disconnect();
@@ -1547,7 +1557,7 @@ namespace detail {
       //std::vector<IdfObject> temp = mixing.remove();
       //result.insert(result.end(), temp.begin(), temp.end());
     }
-
+    QCoreApplication::processEvents();
     //turn the object back on and proceed
     // this->blockSignals(false);
 
@@ -1587,7 +1597,7 @@ namespace detail {
       {
         comp.remove();
       }
-
+      QCoreApplication::processEvents();
       if( boost::optional<AirLoopHVAC> airLoop = this->airLoopHVAC() )
       {
         ThermalZone thisObject = this->getObject<ThermalZone>();
@@ -1940,6 +1950,7 @@ namespace detail {
                 }
               }
             }
+            QCoreApplication::processEvents();
           }
 
           return true;

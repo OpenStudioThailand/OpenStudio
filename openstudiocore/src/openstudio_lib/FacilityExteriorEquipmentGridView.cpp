@@ -96,6 +96,7 @@ namespace openstudio {
     }
   }
 
+  //NOTE:MAY BE USE QCoreApplication::processEvents(); layter in for loop when slow
   void FacilityExteriorEquipmentGridView::purgeObjects(const IddObjectType& iddObjectType)
   {
     for (auto mo : this->m_model.getConcreteModelObjects<model::ExteriorLights>()){

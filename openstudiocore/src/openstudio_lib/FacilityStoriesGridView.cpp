@@ -58,6 +58,7 @@
 #include <QComboBox>
 #include <QLabel>
 #include <QRegExp>
+#include <QCoreApplication>
 
 // These defines provide a common area for field display names
 // used on column headers, and other grid widgets
@@ -173,6 +174,7 @@ namespace openstudio {
     }
   }
 
+  //NOTE:MAY BE USE QCoreApplication::processEvents(); layter in for loop when slow
   void FacilityStoriesGridView::purgeObjects(const IddObjectType& iddObjectType)
   {
     for (auto mo : this->m_model.getConcreteModelObjects<model::BuildingStory>()){
@@ -224,6 +226,7 @@ namespace openstudio {
           objectSelector->m_filteredObjects.insert(obj);
         }
       }
+      QCoreApplication::processEvents();
     }
 
     this->m_gridView->requestRefreshAll();
@@ -356,6 +359,7 @@ namespace openstudio {
         // unhandled
         OS_ASSERT(false);
       }
+      QCoreApplication::processEvents();
     }
   }
 
