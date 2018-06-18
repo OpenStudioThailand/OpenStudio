@@ -79,6 +79,8 @@
 
 #include <utilities/idd/IddEnums.hxx>
 
+#include <QDebug>
+
 namespace openstudio {
 
 /******************************************************************************/
@@ -115,6 +117,8 @@ SchedulesView::SchedulesView(bool isIP, const model::Model & model)
     m_contentLayout(nullptr),
     m_isIP(isIP)
 {
+  qint64 time0 = QDateTime::currentMSecsSinceEpoch();
+  qDebug() << "TIME START:" << time0 << " " ;
   setObjectName("GrayWidgetWithLeftTopBorders");
 
   auto mainHLayout = new QHBoxLayout();
@@ -210,6 +214,8 @@ SchedulesView::SchedulesView(bool isIP, const model::Model & model)
     setCurrentSchedule(schedules.back());
   }
 
+  qint64 time1 = QDateTime::currentMSecsSinceEpoch();
+  qDebug() << "TIME END:" << time1 << " , TOTAL:" << (time1 - time0);
 }
 
 void SchedulesView::closeAllTabs() const

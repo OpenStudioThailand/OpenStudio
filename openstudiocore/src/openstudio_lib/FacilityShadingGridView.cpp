@@ -61,6 +61,7 @@
 #include <QLabel>
 #include <QLineEdit>
 #include <QRegExpValidator>
+#include <QCoreApplication>
 
 // These defines provide a common area for field display names
 // used on column headers, and other grid widgets
@@ -264,6 +265,7 @@ namespace openstudio {
         if (!objName.contains(m_nameFilter->text(), Qt::CaseInsensitive)) {
           m_objectsFilteredByName.insert(obj);
         }
+        QCoreApplication::processEvents();
       }
     }
 
@@ -283,6 +285,7 @@ namespace openstudio {
           }
         }
       }
+      QCoreApplication::processEvents();
     }
 
     filterChanged();
@@ -323,8 +326,10 @@ namespace openstudio {
           if (orientation >= upperLimit || orientation <= lowerLimit) {
             m_objectsFilteredByOrientation.insert(obj);
           }
+          QCoreApplication::processEvents();
         }
       }
+      QCoreApplication::processEvents();
     }
 
     this->m_gridView->requestRefreshAll();
@@ -366,8 +371,10 @@ namespace openstudio {
           if (tilt >= upperLimit || tilt <= lowerLimit) {
             m_objectsFilteredByOrientation.insert(obj);
           }
+          QCoreApplication::processEvents();
         }
       }
+      QCoreApplication::processEvents();
     }
 
     this->m_gridView->requestRefreshAll();
@@ -383,18 +390,21 @@ namespace openstudio {
       if (allFilteredObjects.count(obj) == 0) {
         allFilteredObjects.insert(obj);
       }
+      QCoreApplication::processEvents();
     }
 
     for (auto obj : m_objectsFilterdByType) {
       if (allFilteredObjects.count(obj) == 0) {
         allFilteredObjects.insert(obj);
       }
+      QCoreApplication::processEvents();
     }
 
     for (auto obj : m_objectsFilteredByOrientation) {
       if (allFilteredObjects.count(obj) == 0) {
         allFilteredObjects.insert(obj);
       }
+      QCoreApplication::processEvents();
     }
 
     this->m_gridController->getObjectSelector()->m_filteredObjects = allFilteredObjects;
@@ -578,6 +588,7 @@ namespace openstudio {
           OS_ASSERT(false);
         }
       }
+      QCoreApplication::processEvents();
     }
   }
 

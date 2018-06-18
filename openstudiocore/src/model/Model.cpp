@@ -63,6 +63,8 @@
 
 #include <boost/regex.hpp>
 
+//NOTE:MAY BE USE QCoreApplication::processEvents(); for loop when slow
+
 using openstudio::IddObjectType;
 using openstudio::detail::WorkspaceObject_Impl;
 

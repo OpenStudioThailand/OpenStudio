@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="tis-620"?>
+<Standard>
+  <OTTV>
+	<stdOTTV>
+		<BuildingType>dept</BuildingType>
+		<value>40</value>
+	</stdOTTV>
+	<stdOTTV>
+		<BuildingType>hotel</BuildingType>
+		<value>30</value>
+	</stdOTTV>
+	<stdOTTV>
+		<BuildingType>office</BuildingType>
+		<value>50</value>
+	</stdOTTV>
+  </OTTV>
+  <RTTV>
+	<stdRTTV>
+		<BuildingType>dept</BuildingType>
+		<value>12</value>
+	</stdRTTV>
+	<stdRTTV>
+		<BuildingType>hotel</BuildingType>
+		<value>10</value>
+	</stdRTTV>
+	<stdRTTV>
+		<BuildingType>office</BuildingType>
+		<value>15</value>
+	</stdRTTV>
+  </RTTV>
+  <LPD>
+	<stdLPD>
+		<BuildingType>dept</BuildingType>
+		<value>18</value>
+	</stdLPD>
+	<stdLPD>
+		<BuildingType>hotel</BuildingType>
+		<value>12</value>
+	</stdLPD>
+	<stdLPD>
+		<BuildingType>office</BuildingType>
+		<value>14</value>
+	</stdLPD>
+  </LPD>
+  <DXAC>
+	<stdDXAC>
+		<DXACType>Package Air Cooled</DXACType>
+		<Capacity>0</Capacity>
+		<value>0</value>
+	</stdDXAC>
+	<stdDXAC>
+		<DXACType>Split Type</DXACType>
+		<Capacity>3.412</Capacity>
+		<value>3.22</value>
+	</stdDXAC>
+	<stdDXAC>
+		<DXACType>Package Water Cooled</DXACType>
+		<Capacity>0</Capacity>
+		<value>0</value>
+	</stdDXAC>
+	<stdDXAC>
+		<DXACType>Window Type</DXACType>
+		<Capacity>3.412</Capacity>
+		<value>3.22</value>
+	</stdDXAC>
+  </DXAC>
+  <CentralAC>
+	<stdCentralAC>
+		<CentralACType>air cooled water chiller</CentralACType>
+		<ChillerType>all</ChillerType>
+		<Capacity>300</Capacity>
+		<stdLess>2.64</stdLess>
+		<stdMore>2.68</stdMore>
+	</stdCentralAC>
+	<stdCentralAC>
+		<CentralACType>water cooled water chiller</CentralACType>
+		<ChillerType>reciprocating</ChillerType>
+		<Capacity>0</Capacity>
+		<stdLess>2.84</stdLess>
+		<stdMore>2.84</stdMore>
+	</stdCentralAC>
+	<stdCentralAC>
+		<CentralACType>water cooled water chiller</CentralACType>
+		<ChillerType>screw driven</ChillerType>
+		<Capacity>150</Capacity>
+		<stdLess>3.95</stdLess>
+		<stdMore>4.51</stdMore>
+	</stdCentralAC>
+	<stdCentralAC>
+		<CentralACType>water cooled water chiller</CentralACType>
+		<ChillerType>centrifugal</ChillerType>
+		<Capacity>500</Capacity>
+		<stdLess>4.63</stdLess>
+		<stdMore>5.67</stdMore>
+	</stdCentralAC>
+	<stdCentralAC>
+		<CentralACType>water cooled water chiller</CentralACType>
+		<ChillerType>scroll</ChillerType>
+		<Capacity>150</Capacity>
+		<stdLess>3.95</stdLess>
+		<stdMore>4.51</stdMore>
+	</stdCentralAC>
+	<stdCentralAC>
+		<CentralACType>water cooled water chiller</CentralACType>
+		<ChillerType>rotary</ChillerType>
+		<Capacity>150</Capacity>
+		<stdLess>3.95</stdLess>
+		<stdMore>4.51</stdMore>
+	</stdCentralAC>
+	<stdCentralAC>
+		<CentralACType>single staged absorption chiller</CentralACType>
+		<ChillerType>none</ChillerType>
+		<Capacity>0</Capacity>
+		<stdLess>0.65</stdLess>
+		<stdMore>0.65</stdMore>
+	</stdCentralAC>
+	<stdCentralAC>
+		<CentralACType>double staged absorption chiller</CentralACType>
+		<ChillerType>none</ChillerType>
+		<Capacity>0</Capacity>
+		<stdLess>1.1</stdLess>
+		<stdMore>1.1</stdMore>
+	</stdCentralAC>
+  </CentralAC>
+</Standard>

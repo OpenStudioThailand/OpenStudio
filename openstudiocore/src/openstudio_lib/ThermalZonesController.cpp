@@ -192,6 +192,7 @@ void ThermalZonesController::addComponentToZone(model::ThermalZone & zone, Handl
       {
         exisitngHVACComps.push_back(hvacComp.get());
       }
+      QCoreApplication::processEvents();
     }
 
     if( exisitngHVACComps.size() > 0 )
@@ -296,6 +297,7 @@ void ThermalZonesController::onPurgeObjects(const openstudio::IddObjectType& idd
       // DLM: just remove it
       thermalZone.remove();
     }
+    QCoreApplication::processEvents();
   }
   
   // DLM: this method doesn't actually call ThermalZone::remove which is important to preserve model validity

@@ -217,13 +217,15 @@ void HVACSystemsController::update()
     auto airloops = m_model.getModelObjects<model::AirLoopHVAC>();
     std::sort(airloops.begin(),airloops.end(),WorkspaceObjectNameLess());
     for( auto it = airloops.begin(); it != airloops.end(); ++it ) {
-      systemComboBox->addItem(QString::fromStdString(it->name().get()), toQString(it->handle()));
+        systemComboBox->addItem(QString::fromStdString(it->name().get()), toQString(it->handle()));
+        QCoreApplication::processEvents();
     }
 
     auto plantloops = m_model.getModelObjects<model::PlantLoop>();
     std::sort(plantloops.begin(),plantloops.end(),WorkspaceObjectNameLess());
     for( auto it = plantloops.begin(); it != plantloops.end(); ++it ) {
-      systemComboBox->addItem(QString::fromStdString(it->name().get()), toQString(it->handle()));
+        systemComboBox->addItem(QString::fromStdString(it->name().get()), toQString(it->handle()));
+        QCoreApplication::processEvents();
     }
 
     systemComboBox->addItem("Service Hot Water",SHW);
@@ -1153,6 +1155,7 @@ void HVACControlsController::update()
           _spm = *it;
           break;
         }
+        QCoreApplication::processEvents();
       }
 
       boost::optional<model::SetpointManagerSingleZoneReheat> spmSZR;
@@ -1172,7 +1175,8 @@ void HVACControlsController::update()
              it != thermalZones.end();
              ++it )
         {
-          m_singleZoneReheatSPMView->controlZoneComboBox->addItem(QString::fromStdString(it->name().get()), toQString(it->handle()));
+            m_singleZoneReheatSPMView->controlZoneComboBox->addItem(QString::fromStdString(it->name().get()), toQString(it->handle()));
+            QCoreApplication::processEvents();
         }
 
         m_singleZoneReheatSPMView->controlZoneComboBox->addItem("",toQString(UUID()));
@@ -1252,7 +1256,8 @@ void HVACControlsController::update()
              it != thermalZones.end();
              ++it )
         {
-          m_airLoopHVACUnitaryHeatPumpAirToAirControlView->controlZoneComboBox->addItem(QString::fromStdString(it->name().get()), toQString(it->handle()));
+            m_airLoopHVACUnitaryHeatPumpAirToAirControlView->controlZoneComboBox->addItem(QString::fromStdString(it->name().get()), toQString(it->handle()));
+            QCoreApplication::processEvents();
         }
 
         m_airLoopHVACUnitaryHeatPumpAirToAirControlView->controlZoneComboBox->addItem("",toQString(UUID()));

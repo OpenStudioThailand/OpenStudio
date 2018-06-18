@@ -58,6 +58,8 @@
 
 #include "../utilities/core/Assert.hpp"
 
+#include <QCoreApplication>
+
 namespace openstudio {
 namespace model {
 
@@ -188,6 +190,7 @@ namespace detail {
       if(!test){
         LOG(Error, "Could not transform vertices for ShadingSurface '" << shadingSurface.name().get() << "'.");
       }
+      QCoreApplication::processEvents();
     }
 
     return true;
@@ -198,6 +201,7 @@ namespace detail {
     BoundingBox result;
     for (ShadingSurface shadingSurface : this->shadingSurfaces()){
       result.addPoints(shadingSurface.vertices());
+      QCoreApplication::processEvents();
     }
     return result;
   }

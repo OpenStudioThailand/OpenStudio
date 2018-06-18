@@ -110,6 +110,7 @@ OSGridView::OSGridView(OSGridController * gridController,
     button->setCheckable(true);
     buttonLayout->addWidget(button);
     buttonGroup->addButton(button,buttonGroup->buttons().size());
+    QCoreApplication::processEvents();
   }
 
   auto layout = new QVBoxLayout();
@@ -267,6 +268,7 @@ void OSGridView::deleteAll()
 
       delete child;
     }
+    QCoreApplication::processEvents();
   }
 }
 
@@ -336,6 +338,7 @@ void OSGridView::doRefresh()
     if (r == RemoveRow) has_remove_row = true;
     if (r == RefreshGrid) has_refresh_grid = true;
     if (r == RefreshAll) has_refresh_all = true;
+    QCoreApplication::processEvents();
   }
 
   m_queueRequests.clear();
@@ -377,6 +380,7 @@ void OSGridView::refreshAll()
       {
         addWidget(i, j);
       }
+      QCoreApplication::processEvents();
     }
 
     this->m_gridController->getObjectSelector()->updateWidgets();

@@ -62,6 +62,9 @@
 #include <QPushButton>
 #include <QScrollArea>
 #include <QStackedWidget>
+#include <QCoreApplication>
+#include <QMessageBox>
+#include <QDateTime>
 
 namespace openstudio {
 
@@ -512,9 +515,23 @@ BuildingInspectorView::BuildingInspectorView(bool isIP, const openstudio::model:
   mainGridLayout->setColumnStretch(2,1);
   mainGridLayout->setRowStretch(row,1);
 
+  QCoreApplication::processEvents();
+
+
+
+  //qint64 time1 = QDateTime::currentMSecsSinceEpoch();
   auto building = model.getConcreteModelObjects<model::Building>();
   OS_ASSERT(building.size() == 1);
   onSelectModelObject(building.at(0));
+  //time1 = QDateTime::currentMSecsSinceEpoch() - time1;
+  //QString elaptime;
+  //elaptime = "time: " + QString::number(time1);
+  //QMessageBox box(QMessageBox::Information,
+  //  "Openstudio Debugger",
+  //  elaptime,
+  //  QMessageBox::Ok);
+  //box.exec();
+
 }
 
 void BuildingInspectorView::onClearSelection()
@@ -683,6 +700,7 @@ void BuildingInspectorView::populateStandardsBuildingTypes()
     std::vector<std::string> suggestedStandardsBuildingTypes = m_building->suggestedStandardsBuildingTypes();
     for (const std::string& standardsBuildingType : suggestedStandardsBuildingTypes) {
       m_standardsBuildingTypeComboBox->addItem(toQString(standardsBuildingType));
+      QCoreApplication::processEvents();
     }
     boost::optional<std::string> standardsBuildingType = m_building->standardsBuildingType();
     if (standardsBuildingType){
