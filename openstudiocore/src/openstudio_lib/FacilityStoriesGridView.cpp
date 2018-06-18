@@ -179,6 +179,7 @@ namespace openstudio {
   {
     for (auto mo : this->m_model.getConcreteModelObjects<model::BuildingStory>()){
       mo.remove();
+      QCoreApplication::processEvents();
     }
   }
 
