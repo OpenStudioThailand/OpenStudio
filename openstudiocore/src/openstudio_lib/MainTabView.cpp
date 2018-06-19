@@ -171,7 +171,6 @@ void MainTabView::select()
     } else {
       index++;
     }
-    QCoreApplication::processEvents();
   } 
 
   setCurrentIndex(index);
